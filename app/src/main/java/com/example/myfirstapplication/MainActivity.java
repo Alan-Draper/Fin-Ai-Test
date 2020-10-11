@@ -14,6 +14,9 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
@@ -23,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
     private static final String TAG = "";
     FirebaseAuth auth = FirebaseAuth.getInstance();
+    DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
 
     public void showDatabaseTest() {
         Intent intent = new Intent(getApplicationContext(), Database_test.class);
@@ -55,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    private void writeNewUser(String userId, String name, String email) {
+        User user = new User(name, email);
+
+        mRootRef.child("users").child(userId).setValue(user);
+    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -64,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Successfully signed in
             if (resultCode == RESULT_OK) {
+                this.writeNewUser(auth.getUid(), auth.getCurrentUser().getDisplayName(), auth.getCurrentUser().getEmail());
                 showDatabaseTest();
                 finish();
             } else {

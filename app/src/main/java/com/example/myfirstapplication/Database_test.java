@@ -2,6 +2,7 @@ package com.example.myfirstapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,9 +19,10 @@ public class Database_test extends AppCompatActivity {
 
 
     TextView mtv;
-    Button mb1, mb2;
+    Button mb1, mb2, mb3;
     DatabaseReference mRootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference mtvRef = mRootRef.child("Condition");
+
 
 
     @Override
@@ -28,7 +30,7 @@ public class Database_test extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_database_test);
         mtv = findViewById(R.id.tv);
-        mb1 = findViewById(R.id.b1);
+        mb1 = findViewById(R.id.b);
         mb2 = findViewById(R.id.b2);
     }
 
@@ -59,6 +61,7 @@ public class Database_test extends AppCompatActivity {
         mb2.setOnClickListener(v -> {
             mtvRef.setValue(mb2.getText());
         });
+
     }
 
 }
